@@ -14,18 +14,6 @@ const animationConfig = {
     enableGPUAcceleration: true
 };
 
-// Sound Effects System
-const soundEffects = {
-    slideTransition: null,
-    buttonClick: null,
-    photoAppear: null,
-    celebration: null,
-    sparkle: null,
-    heartbeat: null,
-    gift: null,
-    panda: null
-};
-
 // Initialize audio context for sound generation
 let audioContext = null;
 
@@ -49,7 +37,6 @@ function playTone(frequency, duration, type = 'sine', volume = 0.3, attack = 0.0
         oscillator.frequency.value = frequency;
         oscillator.type = type;
         
-        // Smooth attack and release
         gainNode.gain.setValueAtTime(0, ctx.currentTime);
         gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + attack);
         gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration - release);
@@ -61,7 +48,7 @@ function playTone(frequency, duration, type = 'sine', volume = 0.3, attack = 0.0
     }
 }
 
-// Enhanced sound effects with smoother transitions
+// Enhanced sound effects
 function soundButtonClick() {
     playTone(850, 0.15, 'sine', 0.25, 0.01, 0.05);
     setTimeout(() => {
@@ -156,8 +143,6 @@ function playSound(type) {
         case 'error':
             soundError();
             break;
-        default:
-            console.log(`Sound type not found: ${type}`);
     }
 }
 
@@ -176,25 +161,9 @@ const slide5Texts = [
     "Never forget how amazing you are..."
 ];
 
-// Smooth scroll and performance optimization
-function enableGPUAcceleration(element) {
-    if (animationConfig.enableGPUAcceleration) {
-        element.style.transform = 'translate3d(0, 0, 0)';
-        element.style.willChange = 'transform';
-    }
-}
-
-function disableGPUAcceleration(element) {
-    if (animationConfig.enableGPUAcceleration) {
-        element.style.willChange = 'auto';
-    }
-}
-
 // Initialize
 window.addEventListener('load', () => {
-    // Preload images
     preloadImages();
-    
     setTimeout(() => {
         startExperience();
     }, 4000);
@@ -229,7 +198,6 @@ function startExperience() {
     loadingScreen.classList.add('hidden');
     mainContainer.classList.remove('hidden');
     
-    // Smooth music fade-in
     music.volume = 0;
     music.play().catch(e => console.log('Audio play failed:', e));
     
@@ -246,19 +214,16 @@ function startExperience() {
 function showSlide(slideNum) {
     buttonsDisabled = false;
     
-    // Smooth fade out current slides
     document.querySelectorAll('.slide:not(.hidden)').forEach(slide => {
         slide.style.animation = 'fadeOut 0.5s ease-in-out forwards';
     });
     
     setTimeout(() => {
-        // Hide all slides
         document.querySelectorAll('.slide').forEach(slide => {
             slide.classList.add('hidden');
             slide.style.animation = '';
         });
         
-        // Show current slide with fade in
         const slide = document.getElementById(`slide${slideNum}`);
         if (slide) {
             slide.classList.remove('hidden');
@@ -268,7 +233,6 @@ function showSlide(slideNum) {
         currentSlide = slideNum;
         playSound('slideTransition');
 
-        // Slide-specific logic
         switch(slideNum) {
             case 2:
                 initSlide2();
@@ -292,6 +256,38 @@ function showSlide(slideNum) {
     }, 500);
 }
 
+// Custom notification (replaces alert)
+function showNotification(text, duration = 2500) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem 3rem;
+        border-radius: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #FF69B4;
+        text-align: center;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        max-width: 80%;
+        line-height: 1.5;
+        animation: slideInUp 0.5s ease-out;
+        backdrop-filter: blur(10px);
+    `;
+    
+    notification.textContent = text;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease-in-out forwards';
+        setTimeout(() => notification.remove(), 500);
+    }, duration);
+}
+
 // Slide 1: Friendship Test
 function handleYes() {
     if (buttonsDisabled) return;
@@ -299,16 +295,14 @@ function handleYes() {
     
     playSound('buttonClick');
     const panda = document.getElementById('pandaSlide1');
-    panda.classList.add('happy');
+    panda.style.animation = 'jump 0.6s ease-in-out';
     
-    // Disable buttons
     document.querySelectorAll('.btn-yes, .btn-no').forEach(btn => {
         btn.disabled = true;
         btn.style.opacity = '0.6';
         btn.style.cursor = 'not-allowed';
     });
     
-    // Play celebration sounds with smooth timing
     setTimeout(() => {
         playSound('celebration');
     }, 150);
@@ -317,33 +311,37 @@ function handleYes() {
     }, 300);
     
     createConfetti();
+    showNotification('YAY!! I knew it!! 🐼💖', 1500);
     
     setTimeout(() => {
-        alert('YAY!! I knew it!! 🐼💖');
         nextSlide();
-    }, 1500);
+    }, 2000);
 }
 
 function handleNo() {
     if (buttonsDisabled) return;
+    buttonsDisabled = true;
     
     playSound('error');
     playSound('panda');
     
     const noBtn = event.target;
-    noBtn.style.animation = 'shake 0.5s ease-in-out';
+    const pandaElm = document.getElementById('pandaSlide1');
     
-    const panda = document.getElementById('pandaSlide1');
-    panda.style.animation = 'sad 0.5s ease-in-out infinite';
+    // Create vibration effect with shake animation
+    for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+            noBtn.style.animation = 'shake 0.15s ease-in-out';
+            pandaElm.style.animation = 'shake 0.15s ease-in-out';
+        }, i * 150);
+    }
     
-    // Show angry panda message with better UI
-    const message = "HOW DARE YOU!! 😤\n\nI KNEW WE WERE BEST FRIENDS!!\n\nTry that again... 😒👉\n\n(Click YES to prove it! 💖)";
-    alert(message);
+    showNotification('HOW DARE YOU!! 😤\n\nI KNEW WE WERE BEST FRIENDS!!\n\nTry that again... 😒👉', 3000);
     
-    // Reset panda animation
     setTimeout(() => {
-        panda.style.animation = 'sad 1s ease-in-out infinite';
+        buttonsDisabled = false;
         noBtn.style.animation = '';
+        pandaElm.style.animation = '';
     }, 500);
 }
 
@@ -357,7 +355,6 @@ function initSlide2() {
     
     const showNextPhoto = () => {
         if (photoIndex < 4) {
-            // Fade out previous photo
             const existingImg = photoContainer.querySelector('img');
             if (existingImg) {
                 existingImg.style.animation = 'fadeOut 0.5s ease-in-out forwards';
@@ -380,7 +377,6 @@ function initSlide2() {
                 setTimeout(showNextPhoto, animationConfig.photoDisplayDuration);
             }, 500);
         } else {
-            // Final message with smooth fade
             photoText.style.animation = 'fadeOut 0.5s ease-in-out forwards';
             setTimeout(() => {
                 photoText.innerHTML = "<br><br>Tiny panda whispers: <br>\"I think she's really special...\" 🐼";
@@ -430,7 +426,6 @@ function cutCake() {
     createConfetti();
     createFireworks();
     
-    // Staggered celebration sounds
     playSound('celebration');
     setTimeout(() => {
         playSound('sparkle');
@@ -605,8 +600,10 @@ function nextSlide() {
     if (currentSlide < totalSlides) {
         showSlide(currentSlide + 1);
     } else {
-        alert('🎉 Thank you for celebrating! 🎉');
-        location.reload();
+        showNotification('🎉 Thank you for celebrating! 🎉', 2000);
+        setTimeout(() => {
+            location.reload();
+        }, 2500);
     }
 }
 
@@ -652,7 +649,6 @@ function createConfetti() {
         confetti.style.animation = `fall ${duration}s linear forwards`;
         document.body.appendChild(confetti);
         
-        // Smooth sparkle sounds
         if (Math.random() > 0.6) {
             setTimeout(() => {
                 playSound('sparkle');
@@ -688,7 +684,7 @@ function createFireworks() {
     }
 }
 
-// Keyboard navigation with smooth transitions
+// Keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
         nextSlide();
@@ -700,7 +696,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Performance optimization: Reduce animations on low-end devices
+// Performance optimization
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('*').forEach(el => {
         el.style.animationDuration = '0.01ms !important';
