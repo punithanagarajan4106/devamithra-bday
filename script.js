@@ -610,6 +610,8 @@ function nextSlide() {
 function typeWriter(element, text, speed) {
     element.innerHTML = '';
     let i = 0;
+    let htmlBuffer = '';
+    let inTag = false;
     let lastTime = Date.now();
     
     function type() {
@@ -618,7 +620,28 @@ function typeWriter(element, text, speed) {
         
         if (delta >= speed) {
             if (i < text.length) {
-                element.innerHTML += text.charAt(i);
+                const char = text.charAt(i);
+                
+                // Check if we're entering or exiting an HTML tag
+                if (char === '<') {
+                    inTag = true;
+                }
+                if (char === '>') {
+                    inTag = false;
+                }
+                
+                // If we're in a tag, add the character directly
+                // Otherwise, add it normally
+                if (inTag || char === '<' || char === '>') {
+                    htmlBuffer += char;
+                } else if (char === '\n' || char === '\r') {
+                    // Skip newlines/carriage returns
+                    htmlBuffer += '';
+                } else {
+                    htmlBuffer += char;
+                }
+                
+                element.innerHTML = htmlBuffer;
                 i++;
                 lastTime = currentTime;
             }
