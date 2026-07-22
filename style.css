@@ -374,14 +374,21 @@ body {
 
 /* Letter (Slide 3) */
 .panda-envelope {
-    position: relative;
-    font-size: 4rem;
-    margin-bottom: 2rem;
-    animation: bounceIn 1s ease-out;
+    position: absolute;
+    font-size: 3rem;
+    animation: deliveryWalk 3s ease-in-out forwards;
+}
+
+.panda-carry {
+    display: inline-block;
+    font-size: 3rem;
 }
 
 .envelope {
-    animation: openEnvelope 1.5s ease-out forwards;
+    display: inline-block;
+    font-size: 2.5rem;
+    margin-left: 0.5rem;
+    animation: openEnvelope 2s ease-out forwards;
 }
 
 .letter-container {
@@ -393,12 +400,21 @@ body {
     min-height: 300px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     margin: 2rem 0;
+    opacity: 0;
+    animation: letterReveal 1s ease-out 3s forwards;
 }
 
 .letter-content {
     font-size: 1.1rem;
     line-height: 1.8;
     color: var(--dark-pink);
+}
+
+.panda-sit {
+    position: absolute;
+    font-size: 3rem;
+    bottom: 10%;
+    animation: pandaSit 1.5s ease-out 3s forwards;
 }
 
 /* Celebration (Slide 4) */
@@ -720,10 +736,13 @@ body {
 
 @keyframes openEnvelope {
     0% {
-        transform: rotateX(0);
+        transform: rotateX(0deg) scale(1);
+    }
+    50% {
+        transform: rotateX(-15deg) scale(1);
     }
     100% {
-        transform: rotateX(45deg);
+        transform: rotateX(-50deg) scale(0.7);
     }
 }
 
@@ -764,6 +783,56 @@ body {
     50% {
         transform: translateX(20px);
         opacity: 1;
+    }
+}
+
+/* Slide 3 Custom Animations */
+@keyframes deliveryWalk {
+    0% {
+        opacity: 0;
+        left: -100px;
+        top: 20%;
+    }
+    20% {
+        opacity: 1;
+        left: -50px;
+        top: 20%;
+    }
+    80% {
+        opacity: 1;
+        left: calc(50% - 100px);
+        top: 20%;
+    }
+    100% {
+        opacity: 0;
+        left: calc(50% - 100px);
+        top: 20%;
+    }
+}
+
+@keyframes letterReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotateY(30deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+    }
+}
+
+@keyframes pandaSit {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px) translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(0) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
     }
 }
 
