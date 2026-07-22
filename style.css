@@ -1,0 +1,838 @@
+:root {
+    --baby-pink: #FFB6C1;
+    --white: #FFFFFF;
+    --lavender: #E6D5F8;
+    --gold: #FFD700;
+    --dark-pink: #FF69B4;
+    --light-lavender: #F3E5FF;
+    --transparent-white: rgba(255, 255, 255, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--baby-pink) 0%, var(--lavender) 100%);
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--baby-pink) 0%, var(--lavender) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeOut 1s ease-in-out 4s forwards;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.panda-walk {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    animation: walk 3s ease-in-out;
+    position: relative;
+}
+
+.panda {
+    animation: bounce 0.6s ease-in-out infinite;
+}
+
+.lantern {
+    position: absolute;
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+.title-appear {
+    font-size: 2.5rem;
+    color: var(--dark-pink);
+    margin: 1rem 0;
+    animation: slideInUp 1s ease-out 0.5s both;
+    font-weight: bold;
+}
+
+.subtitle-appear {
+    font-size: 1.2rem;
+    color: var(--lavender);
+    animation: slideInUp 1s ease-out 1s both;
+}
+
+.name-appear {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-top: 1rem;
+    animation: slideInUp 1s ease-out 1.5s both;
+    font-weight: bold;
+}
+
+.sparkles-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.sparkle {
+    font-size: 1.5rem;
+    animation: sparkle 1s ease-in-out infinite;
+}
+
+.sparkle:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.sparkle:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Main Container */
+#mainContainer {
+    width: 100%;
+    height: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Slides */
+.slide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+    z-index: 10;
+}
+
+.slide.hidden {
+    display: none !important;
+}
+
+.slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.slide1-bg {
+    background: linear-gradient(180deg, #FFE4E1 0%, var(--baby-pink) 100%);
+}
+
+.slide2-bg {
+    background: linear-gradient(180deg, var(--light-lavender) 0%, var(--lavender) 100%);
+}
+
+.slide3-bg {
+    background: linear-gradient(180deg, var(--baby-pink) 0%, #FFF0F5 100%);
+}
+
+.slide4-bg {
+    background: linear-gradient(180deg, var(--gold) 0%, var(--baby-pink) 100%);
+}
+
+.slide5-bg {
+    background: linear-gradient(180deg, var(--light-lavender) 0%, var(--lavender) 100%);
+}
+
+.slide6-bg {
+    background: linear-gradient(180deg, #1a1a3a 0%, #2d1b4e 100%);
+}
+
+.slide7-bg {
+    background: linear-gradient(180deg, var(--lavender) 0%, var(--baby-pink) 100%);
+}
+
+.slide8-bg {
+    background: linear-gradient(180deg, #1a1a3a 0%, #2d1b4e 100%);
+}
+
+.slide-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Clouds */
+.clouds {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 2rem;
+}
+
+.cloud {
+    font-size: 3rem;
+    animation: float 4s ease-in-out infinite;
+}
+
+.cloud:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+/* Flowers */
+.flowers {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 2rem;
+}
+
+.flower {
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Petals */
+.petals-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.petal {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: fall 3s linear infinite;
+}
+
+/* Panda Containers */
+.panda-container {
+    margin: 2rem 0;
+}
+
+.panda-large {
+    font-size: 5rem;
+    animation: sad 1s ease-in-out infinite;
+}
+
+.panda-large.happy {
+    animation: jump 0.8s ease-in-out;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-weight: bold;
+    color: var(--dark-pink);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-yes {
+    background: rgba(0, 200, 100, 0.7);
+    color: white;
+}
+
+.btn-no {
+    background: rgba(255, 69, 69, 0.7);
+    color: white;
+}
+
+.btn-continue {
+    background: rgba(255, 105, 180, 0.7);
+    color: white;
+    margin-top: 2rem;
+}
+
+.btn-cake {
+    background: rgba(255, 215, 0, 0.8);
+    color: white;
+    margin-top: 2rem;
+}
+
+/* Text */
+.slide-text {
+    font-size: 1.8rem;
+    color: var(--dark-pink);
+    margin: 1rem 0;
+    max-width: 600px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.tribute-text {
+    color: var(--white);
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.final-text {
+    color: var(--white);
+    font-size: 1.4rem;
+}
+
+/* Photo Carousel (Slide 2) */
+.photo-carousel {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin: 2rem 0;
+}
+
+.photo-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-frame {
+    width: 300px;
+    height: 400px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    animation: fadeInScale 1s ease-in-out;
+    border: 3px solid var(--white);
+}
+
+/* Gallery (Slide 5) */
+.photo-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.gallery-photos {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gallery-photo {
+    width: 150px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    animation: fadeInScale 1s ease-in-out;
+    border: 2px solid var(--white);
+}
+
+/* Letter (Slide 3) */
+.panda-envelope {
+    position: relative;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    animation: bounceIn 1s ease-out;
+}
+
+.envelope {
+    animation: openEnvelope 1.5s ease-out forwards;
+}
+
+.letter-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 600px;
+    min-height: 300px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.letter-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--dark-pink);
+}
+
+/* Celebration (Slide 4) */
+.panda-parade {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    animation: slideInDown 1s ease-out;
+}
+
+.panda-item {
+    font-size: 3rem;
+    animation: dance 1s ease-in-out infinite;
+}
+
+.panda-item:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.panda-item:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.panda-item:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.panda-item:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.cake-container {
+    font-size: 5rem;
+    margin: 2rem 0;
+    animation: zoomIn 1s ease-out;
+}
+
+/* Gift Scene (Slide 7) */
+.gift-scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.panda-gift {
+    font-size: 3rem;
+    animation: shake 1s ease-in-out infinite;
+}
+
+.gift-box {
+    font-size: 4rem;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.gift-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.gift-photo {
+    width: 250px;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    animation: fadeInScale 1s ease-in-out;
+    border: 3px solid var(--gold);
+}
+
+/* Night Sky (Slide 6) */
+.night-sky {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 2rem;
+}
+
+.star {
+    font-size: 1.5rem;
+    animation: twinkle 2s ease-in-out infinite;
+}
+
+.lantern-panda {
+    font-size: 4rem;
+    animation: walkSlow 3s ease-in-out;
+    margin-bottom: 2rem;
+}
+
+.father-photo-frame {
+    width: 300px;
+    height: 400px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+    object-fit: cover;
+    border: 3px solid var(--white);
+    margin: 2rem 0;
+}
+
+.white-flower {
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Moon Scene (Slide 8) */
+.moon-pandas {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.moon {
+    font-size: 5rem;
+    animation: glow 2s ease-in-out infinite;
+}
+
+.panda-moon {
+    font-size: 3rem;
+    animation: sit 1s ease-in-out;
+}
+
+.peek-panda {
+    font-size: 3rem;
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    animation: peek 2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes walk {
+    0% {
+        transform: translateX(-100px);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100px);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-50px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes sad {
+    0%, 100% {
+        transform: rotateZ(-2deg);
+    }
+    50% {
+        transform: rotateZ(2deg);
+    }
+}
+
+@keyframes dance {
+    0%, 100% {
+        transform: translateY(0) rotateZ(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotateZ(-5deg);
+    }
+    75% {
+        transform: translateY(-10px) rotateZ(5deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes fall {
+    0% {
+        opacity: 1;
+        transform: translateY(-100px) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.3);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: rotateZ(0deg);
+    }
+    25% {
+        transform: rotateZ(-5deg);
+    }
+    75% {
+        transform: rotateZ(5deg);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes openEnvelope {
+    0% {
+        transform: rotateX(0);
+    }
+    100% {
+        transform: rotateX(45deg);
+    }
+}
+
+@keyframes walkSlow {
+    0% {
+        transform: translateX(-100px);
+    }
+    100% {
+        transform: translateX(100px);
+    }
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes sit {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes peek {
+    0%, 100% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(20px);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .slide-text {
+        font-size: 1.4rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .button-group {
+        gap: 1rem;
+    }
+
+    .panda-large {
+        font-size: 3rem;
+    }
+
+    .photo-frame {
+        width: 250px;
+        height: 350px;
+    }
+
+    .gallery-photo {
+        width: 120px;
+        height: 160px;
+    }
+
+    .panda-parade {
+        gap: 0.5rem;
+    }
+
+    .panda-item {
+        font-size: 2rem;
+    }
+
+    .cake-container {
+        font-size: 3rem;
+    }
+
+    .gift-photo {
+        width: 200px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide-text {
+        font-size: 1.1rem;
+    }
+
+    .title-appear {
+        font-size: 1.8rem;
+    }
+
+    .name-appear {
+        font-size: 1.5rem;
+    }
+
+    .photo-frame {
+        width: 200px;
+        height: 280px;
+    }
+
+    .panda-large {
+        font-size: 2.5rem;
+    }
+}

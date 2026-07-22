@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐼 Project Panda Birthday for DEVAMITHRA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="panda-walk">
+                <div class="panda">🐼</div>
+                <div class="lantern">🏮</div>
+            </div>
+            <h1 class="title-appear">A Little Birthday Adventure</h1>
+            <p class="subtitle-appear">Made Especially For...</p>
+            <h2 class="name-appear">DEVAMITHRA 💖</h2>
+            <div class="sparkles-container">
+                <span class="sparkle">✨</span>
+                <span class="sparkle">✨</span>
+                <span class="sparkle">✨</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="mainContainer" class="hidden">
+        <!-- Slide 1: Friendship Test -->
+        <div id="slide1" class="slide">
+            <div class="slide-bg slide1-bg"></div>
+            <div class="slide-content">
+                <div class="clouds">
+                    <div class="cloud">☁️</div>
+                    <div class="cloud">☁️</div>
+                </div>
+                <div class="flowers">
+                    <span class="flower">🌸</span>
+                    <span class="flower">🌸</span>
+                    <span class="flower">🌸</span>
+                </div>
+                <div class="panda-container">
+                    <div id="pandaSlide1" class="panda-large">🐼</div>
+                </div>
+                <p class="slide-text">You're still my friend... right? 🥺</p>
+                <div class="button-group">
+                    <button class="btn btn-yes" onclick="handleYes()">💚 YES</button>
+                    <button class="btn btn-no" onclick="handleNo()">❤️ NO</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Someone Truly Special -->
+        <div id="slide2" class="slide hidden">
+            <div class="slide-bg slide2-bg"></div>
+            <div class="slide-content">
+                <div class="photo-carousel">
+                    <div id="photoContainer" class="photo-container"></div>
+                </div>
+                <p id="photoText" class="slide-text"></p>
+                <div class="petals-container">
+                    <span class="petal">🌸</span>
+                    <span class="petal">🌸</span>
+                </div>
+                <div class="panda-reaction">🐼</div>
+                <div id="slide2Continue" class="continue-btn hidden">
+                    <button class="btn btn-continue" onclick="nextSlide()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Giant Birthday Letter -->
+        <div id="slide3" class="slide hidden">
+            <div class="slide-bg slide3-bg"></div>
+            <div class="slide-content">
+                <div class="panda-envelope">
+                    <div class="panda-carry">🐼</div>
+                    <div class="envelope">📬</div>
+                </div>
+                <div class="letter-container">
+                    <div id="letterContent" class="letter-content"></div>
+                </div>
+                <div class="panda-sit">🐼</div>
+                <button class="btn btn-continue" onclick="nextSlide()" style="display: none;" id="slide3Continue">Continue</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Birthday Celebration -->
+        <div id="slide4" class="slide hidden">
+            <div class="slide-bg slide4-bg"></div>
+            <div class="slide-content">
+                <div class="panda-parade">
+                    <div class="panda-item">🐼</div>
+                    <div class="panda-item">🐼</div>
+                    <div class="panda-item">🐼</div>
+                    <div class="panda-item">🐼</div>
+                    <div class="panda-item">🐼</div>
+                </div>
+                <h2 class="slide-text">Happy Birthday Devamithra 🎂</h2>
+                <div class="cake-container">
+                    <div class="cake">🎂</div>
+                </div>
+                <button class="btn btn-cake" onclick="cutCake()">🎂 Cut the Cake</button>
+                <div id="celebration" class="hidden">
+                    <div class="confetti"></div>
+                    <button class="btn btn-continue" onclick="nextSlide()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: A World That Smiles Because of You -->
+        <div id="slide5" class="slide hidden">
+            <div class="slide-bg slide5-bg"></div>
+            <div class="slide-content">
+                <div class="photo-gallery">
+                    <div id="galleryPhotos" class="gallery-photos"></div>
+                </div>
+                <p id="galleryText" class="slide-text"></p>
+                <div class="panda-hug">🐼</div>
+                <button class="btn btn-continue" onclick="nextSlide()" style="display: none;" id="slide5Continue">Continue</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: Someone Watching Over You -->
+        <div id="slide6" class="slide hidden">
+            <div class="slide-bg slide6-bg"></div>
+            <div class="slide-content">
+                <div class="night-sky">
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                </div>
+                <div class="lantern-panda">🐼</div>
+                <div id="fatherPhoto" class="father-photo-frame"></div>
+                <div class="white-flower">🌸</div>
+                <p id="tributeText" class="slide-text tribute-text"></p>
+                <button class="btn btn-continue" onclick="nextSlide()" style="display: none;" id="slide6Continue">Continue</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: One Last Gift -->
+        <div id="slide7" class="slide hidden">
+            <div class="slide-bg slide7-bg"></div>
+            <div class="slide-content">
+                <div class="gift-scene">
+                    <div class="panda-gift">🐼</div>
+                    <div class="gift-box">🎁</div>
+                </div>
+                <p id="giftText" class="slide-text"></p>
+                <div id="giftContent" class="gift-content hidden"></div>
+                <button class="btn btn-continue" onclick="nextSlide()" style="display: none;" id="slide7Continue">Continue</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: Goodbye -->
+        <div id="slide8" class="slide hidden">
+            <div class="slide-bg slide8-bg"></div>
+            <div class="slide-content">
+                <div class="moon-pandas">
+                    <div class="moon">🌙</div>
+                    <div class="panda-moon">🐼</div>
+                    <div class="panda-moon">🐼</div>
+                </div>
+                <p id="finalText" class="slide-text final-text"></p>
+                <div class="peek-panda">👀</div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="assets/music/background.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
