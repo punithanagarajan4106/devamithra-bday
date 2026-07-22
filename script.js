@@ -4,6 +4,149 @@ const music = document.getElementById('bgMusic');
 const loadingScreen = document.getElementById('loadingScreen');
 const mainContainer = document.getElementById('mainContainer');
 
+// Sound Effects System
+const soundEffects = {
+    slideTransition: null,
+    buttonClick: null,
+    photoAppear: null,
+    celebration: null,
+    sparkle: null,
+    heartbeat: null,
+    gift: null,
+    panda: null
+};
+
+// Initialize audio context for sound generation
+let audioContext = null;
+
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+}
+
+// Generate sound effect using Web Audio API
+function playTone(frequency, duration, type = 'sine', volume = 0.3) {
+    try {
+        const ctx = initAudioContext();
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = type;
+        
+        gainNode.gain.setValueAtTime(volume, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+        
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + duration);
+    } catch (e) {
+        console.log('Audio playback error:', e);
+    }
+}
+
+// Sound effect: Button Click
+function soundButtonClick() {
+    playTone(800, 0.1, 'sine', 0.2);
+    setTimeout(() => {
+        playTone(1000, 0.1, 'sine', 0.2);
+    }, 50);
+}
+
+// Sound effect: Slide Transition
+function soundSlideTransition() {
+    playTone(400, 0.2, 'sine', 0.15);
+    setTimeout(() => {
+        playTone(500, 0.15, 'sine', 0.15);
+    }, 100);
+}
+
+// Sound effect: Photo Appear
+function soundPhotoAppear() {
+    playTone(600, 0.15, 'sine', 0.2);
+}
+
+// Sound effect: Celebration/Sparkle
+function soundCelebration() {
+    const notes = [523, 659, 784, 1047]; // C, E, G, C (High)
+    notes.forEach((freq, index) => {
+        setTimeout(() => {
+            playTone(freq, 0.2, 'sine', 0.25);
+        }, index * 100);
+    });
+}
+
+// Sound effect: Sparkle/Twinkle
+function soundSparkle() {
+    playTone(1200, 0.08, 'sine', 0.2);
+    setTimeout(() => {
+        playTone(1400, 0.08, 'sine', 0.2);
+    }, 80);
+}
+
+// Sound effect: Heartbeat
+function soundHeartbeat() {
+    playTone(150, 0.15, 'sine', 0.25);
+    setTimeout(() => {
+        playTone(150, 0.15, 'sine', 0.25);
+    }, 150);
+}
+
+// Sound effect: Gift Open
+function soundGiftOpen() {
+    playTone(800, 0.1, 'sine', 0.2);
+    setTimeout(() => {
+        playTone(1000, 0.15, 'sine', 0.2);
+    }, 100);
+    setTimeout(() => {
+        playTone(1200, 0.2, 'sine', 0.25);
+    }, 250);
+}
+
+// Sound effect: Happy Panda
+function soundPanda() {
+    playTone(700, 0.1, 'sine', 0.2);
+    setTimeout(() => {
+        playTone(800, 0.1, 'sine', 0.2);
+    }, 100);
+}
+
+// Main playSound function
+function playSound(type) {
+    switch(type) {
+        case 'buttonClick':
+            soundButtonClick();
+            break;
+        case 'slideTransition':
+            soundSlideTransition();
+            break;
+        case 'photoAppear':
+            soundPhotoAppear();
+            break;
+        case 'celebration':
+            soundCelebration();
+            break;
+        case 'sparkle':
+            soundSparkle();
+            break;
+        case 'heartbeat':
+            soundHeartbeat();
+            break;
+        case 'gift':
+            soundGiftOpen();
+            break;
+        case 'panda':
+            soundPanda();
+            break;
+        default:
+            console.log(`Sound type not found: ${type}`);
+    }
+}
+
 // Photo texts for Slide 2
 const slide2Texts = [
     "Before we celebrate today...",
@@ -38,6 +181,7 @@ function startExperience() {
     mainContainer.classList.remove('hidden');
     music.play().catch(e => console.log('Audio play failed:', e));
     showSlide(1);
+    playSound('slideTransition');
 }
 
 function showSlide(slideNum) {
@@ -53,6 +197,7 @@ function showSlide(slideNum) {
     }
 
     currentSlide = slideNum;
+    playSound('slideTransition');
 
     // Slide-specific logic
     switch(slideNum) {
@@ -79,8 +224,15 @@ function showSlide(slideNum) {
 
 // Slide 1: Friendship Test
 function handleYes() {
+    playSound('buttonClick');
     const panda = document.getElementById('pandaSlide1');
     panda.classList.add('happy');
+    
+    // Play celebration sounds
+    setTimeout(() => {
+        playSound('celebration');
+        playSound('sparkle');
+    }, 100);
     
     // Confetti and celebration
     createConfetti();
@@ -92,6 +244,7 @@ function handleYes() {
 }
 
 function handleNo() {
+    playSound('panda');
     alert('HOW DARE YOU!! 😤\n\nTry that again... 😒👉');
 }
 
@@ -111,11 +264,13 @@ function initSlide2() {
             photoContainer.appendChild(img);
             
             photoText.textContent = slide2Texts[photoIndex];
+            playSound('photoAppear');
             
             photoIndex++;
             setTimeout(showNextPhoto, 2000);
         } else {
             photoText.innerHTML = "<br><br>Tiny panda whispers: <br>\"I think she's really special...\" 🐼";
+            playSound('heartbeat');
             setTimeout(() => {
                 document.getElementById('slide2Continue').classList.remove('hidden');
             }, 1500);
@@ -127,6 +282,7 @@ function initSlide2() {
 
 // Slide 3: Giant Birthday Letter
 function initSlide3() {
+    playSound('gift');
     const letterContent = document.getElementById('letterContent');
     const letter = `
         <h3 style="color: var(--gold); margin-bottom: 1rem;">Dear Devamithra,</h3>
@@ -147,6 +303,7 @@ function initSlide3() {
 
 // Slide 4: Birthday Celebration
 function cutCake() {
+    playSound('buttonClick');
     const celebrationDiv = document.getElementById('celebration');
     celebrationDiv.classList.remove('hidden');
     
@@ -154,8 +311,14 @@ function cutCake() {
     createConfetti();
     createFireworks();
     
-    // Play celebration sound
+    // Play celebration sounds sequentially
     playSound('celebration');
+    setTimeout(() => {
+        playSound('sparkle');
+    }, 300);
+    setTimeout(() => {
+        playSound('celebration');
+    }, 600);
 }
 
 // Slide 5: A World That Smiles Because of You
@@ -176,11 +339,13 @@ function initSlide5() {
             galleryPhotos.appendChild(img);
             
             galleryText.textContent = slide5Texts[photoIndex];
+            playSound('photoAppear');
             
             photoIndex++;
             setTimeout(showNextGalleryPhoto, 2000);
         } else {
             galleryText.innerHTML = "Every picture tells a story...\n<br>But none of them can fully capture the wonderful person you are.";
+            playSound('heartbeat');
             setTimeout(() => {
                 document.getElementById('slide5Continue').style.display = 'block';
             }, 1500);
@@ -192,6 +357,7 @@ function initSlide5() {
 
 // Slide 6: Someone Watching Over You
 function initSlide6() {
+    playSound('heartbeat');
     const fatherPhoto = document.getElementById('fatherPhoto');
     const tributeText = document.getElementById('tributeText');
     
@@ -221,6 +387,7 @@ function initSlide6() {
     `;
     
     setTimeout(() => {
+        playSound('sparkle');
         document.getElementById('slide6Continue').style.display = 'block';
     }, 3000);
 }
@@ -231,10 +398,13 @@ function initSlide7() {
     const giftContent = document.getElementById('giftContent');
     
     giftText.textContent = 'Should we open it? 🎁';
+    playSound('gift');
     
     setTimeout(() => {
         // Show gift photos and message
         giftContent.classList.remove('hidden');
+        playSound('celebration');
+        
         giftContent.innerHTML = `
             <img src="assets/images/slide7/selfie.jpg" class="gift-photo" alt="Selfie together">
             <p style="color: var(--dark-pink); font-size: 1.1rem;">
@@ -261,6 +431,7 @@ function initSlide7() {
 
 // Slide 8: Goodbye
 function initSlide8() {
+    playSound('celebration');
     const finalText = document.getElementById('finalText');
     
     finalText.innerHTML = `
@@ -277,8 +448,10 @@ function initSlide8() {
     setTimeout(() => {
         const peekPanda = document.querySelector('.peek-panda');
         peekPanda.textContent = '👀';
+        playSound('panda');
         setTimeout(() => {
             finalText.innerHTML += `<br><br><br>Psst...<br>Don't forget to smile today...<br>Happy Birthday!! 🐼🎂`;
+            playSound('sparkle');
             setTimeout(() => {
                 peekPanda.textContent = '🐼';
                 peekPanda.style.animation = 'none';
@@ -289,6 +462,7 @@ function initSlide8() {
 
 // Utility Functions
 function nextSlide() {
+    playSound('buttonClick');
     if (currentSlide < totalSlides) {
         showSlide(currentSlide + 1);
     } else {
@@ -323,6 +497,13 @@ function createConfetti() {
         confetti.style.animation = `fall ${2 + Math.random() * 2}s linear forwards`;
         document.body.appendChild(confetti);
         
+        // Play sparkle sound for some confetti
+        if (Math.random() > 0.7) {
+            setTimeout(() => {
+                playSound('sparkle');
+            }, i * 50);
+        }
+        
         setTimeout(() => confetti.remove(), 4000);
     }
 }
@@ -344,18 +525,13 @@ function createFireworks() {
     }
 }
 
-function playSound(type) {
-    // Placeholder for sound effects
-    // In production, load actual audio files
-    console.log(`Playing sound: ${type}`);
-}
-
 // Allow keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
         nextSlide();
     } else if (e.key === 'ArrowLeft') {
         if (currentSlide > 1) {
+            playSound('buttonClick');
             showSlide(currentSlide - 1);
         }
     }
