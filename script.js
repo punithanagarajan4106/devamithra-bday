@@ -394,10 +394,14 @@ function initSlide2() {
     showNextPhoto();
 }
 
-// Slide 3: Giant Birthday Letter
+// Slide 3: Giant Birthday Letter with Panda Delivery Animation
 function initSlide3() {
     playSound('gift');
     const letterContent = document.getElementById('letterContent');
+    const pandaEnvelope = document.querySelector('.panda-envelope');
+    const letterContainer = document.querySelector('.letter-container');
+    const pandaSit = document.querySelector('.panda-sit');
+    
     const letter = `
         <h3 style="color: var(--gold); margin-bottom: 1rem;">Dear Devamithra,</h3>
         <p>As I write this, I find myself reflecting on how fortunate I am to call you my friend.</p>
@@ -408,12 +412,17 @@ function initSlide3() {
         <p style="margin-top: 2rem;">With heartfelt wishes,<br><br>Your Friend 💖</p>
     `;
     
-    typeWriter(letterContent, letter, animationConfig.textTypeSpeed);
+    // Start typewriter animation after delivery is complete (3 seconds)
+    setTimeout(() => {
+        typeWriter(letterContent, letter, animationConfig.textTypeSpeed);
+        playSound('slideTransition');
+    }, 3000);
     
+    // Show continue button after letter is fully revealed
     setTimeout(() => {
         document.getElementById('slide3Continue').style.display = 'block';
         document.getElementById('slide3Continue').style.animation = 'fadeIn 0.8s ease-in-out';
-    }, 5500);
+    }, 7500);
 }
 
 // Slide 4: Birthday Celebration
