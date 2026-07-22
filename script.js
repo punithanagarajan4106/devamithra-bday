@@ -3,6 +3,7 @@ const totalSlides = 8;
 const music = document.getElementById('bgMusic');
 const loadingScreen = document.getElementById('loadingScreen');
 const mainContainer = document.getElementById('mainContainer');
+let buttonsDisabled = false;
 
 // Enhanced Animation & Performance Settings
 const animationConfig = {
@@ -119,6 +120,13 @@ function soundPanda() {
     }, 120);
 }
 
+function soundError() {
+    playTone(200, 0.2, 'sine', 0.3, 0.02, 0.1);
+    setTimeout(() => {
+        playTone(150, 0.2, 'sine', 0.3, 0.02, 0.1);
+    }, 150);
+}
+
 function playSound(type) {
     switch(type) {
         case 'buttonClick':
@@ -144,6 +152,9 @@ function playSound(type) {
             break;
         case 'panda':
             soundPanda();
+            break;
+        case 'error':
+            soundError();
             break;
         default:
             console.log(`Sound type not found: ${type}`);
@@ -233,6 +244,8 @@ function startExperience() {
 }
 
 function showSlide(slideNum) {
+    buttonsDisabled = false;
+    
     // Smooth fade out current slides
     document.querySelectorAll('.slide:not(.hidden)').forEach(slide => {
         slide.style.animation = 'fadeOut 0.5s ease-in-out forwards';
@@ -281,9 +294,19 @@ function showSlide(slideNum) {
 
 // Slide 1: Friendship Test
 function handleYes() {
+    if (buttonsDisabled) return;
+    buttonsDisabled = true;
+    
     playSound('buttonClick');
     const panda = document.getElementById('pandaSlide1');
     panda.classList.add('happy');
+    
+    // Disable buttons
+    document.querySelectorAll('.btn-yes, .btn-no').forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'not-allowed';
+    });
     
     // Play celebration sounds with smooth timing
     setTimeout(() => {
@@ -302,8 +325,26 @@ function handleYes() {
 }
 
 function handleNo() {
+    if (buttonsDisabled) return;
+    
+    playSound('error');
     playSound('panda');
-    alert('HOW DARE YOU!! 😤\n\nTry that again... 😒👉');
+    
+    const noBtn = event.target;
+    noBtn.style.animation = 'shake 0.5s ease-in-out';
+    
+    const panda = document.getElementById('pandaSlide1');
+    panda.style.animation = 'sad 0.5s ease-in-out infinite';
+    
+    // Show angry panda message with better UI
+    const message = "HOW DARE YOU!! 😤\n\nI KNEW WE WERE BEST FRIENDS!!\n\nTry that again... 😒👉\n\n(Click YES to prove it! 💖)";
+    alert(message);
+    
+    // Reset panda animation
+    setTimeout(() => {
+        panda.style.animation = 'sad 1s ease-in-out infinite';
+        noBtn.style.animation = '';
+    }, 500);
 }
 
 // Slide 2: Someone Truly Special
